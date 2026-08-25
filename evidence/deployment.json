@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "evidenceType": "sanitized_canonical_deployment",
+  "capturedAt": "2026-08-25T13:25:08.076Z",
+  "network": {
+    "name": "testnet_bradbury",
+    "chainId": 4221,
+    "rpcUrl": "https://rpc-bradbury.genlayer.com",
+    "explorerBaseUrl": "https://explorer-bradbury.genlayer.com"
+  },
+  "deployment": {
+    "sourceCommit": "92875596a23d876be555dae97b51aac604dcaca8",
+    "sourceHash": "sha256:1dbd5c9ec3c0533ddbcb175b49dc62c6ac6233a7e0d0c1ca441bfb9649ccae8e",
+    "deployedCodeHash": "sha256:1dbd5c9ec3c0533ddbcb175b49dc62c6ac6233a7e0d0c1ca441bfb9649ccae8e",
+    "schemaHash": "sha256:3cb188e08338f3ddcfdb0eb382820a0d43b7ecd28c591967a98e8f386a8a881a",
+    "deployerAddress": "0xc495ef51618d03267a1f227afe5b27b38c748272",
+    "contractAddress": "0xa803A6CE6eB741a9c864462c312e45177fb20E56",
+    "transactionHash": "0x2261b791e957902612194e62de6a4eee1bc7bcc4afc59dde5d50b22ed677f2cb",
+    "statusCode": 7,
+    "statusName": "FINALIZED",
+    "consensusResult": "AGREE",
+    "executionResult": "FINISHED_WITH_RETURN",
+    "initialValidatorCount": 3,
+    "roundCount": 0,
+    "verifiedAt": "2026-08-25T13:24:45.331Z"
+  },
+  "schema": {
+    "contractCount": 1,
+    "publicMethodCount": 7,
+    "viewMethodCount": 3,
+    "writeMethodCount": 4,
+    "methods": [
+      "challenge",
+      "evaluate",
+      "get_release_eligibility",
+      "get_release_status",
+      "get_revision",
+      "register_policy",
+      "submit_claim"
+    ]
+  },
+  "canonicalSmokeRead": {
+    "policyId": "deployment-smoke-absent",
+    "exists": false,
+    "eligible": false,
+    "currentRevision": 0,
+    "pendingRevision": 0,
+    "pendingStatus": ""
+  },
+  "explorerRoutes": {
+    "contract": "https://explorer-bradbury.genlayer.com/address/0xa803A6CE6eB741a9c864462c312e45177fb20E56",
+    "transaction": "https://explorer-bradbury.genlayer.com/tx/0x2261b791e957902612194e62de6a4eee1bc7bcc4afc59dde5d50b22ed677f2cb",
+    "verifiedHttpStatus": 200
+  },
+  "claimBoundary": "This proves finalized successful contract creation, exact deployed-code identity, readable schema, and a fail-closed canonical absent-policy read. It does not prove any release is remediated, external adoption, production security, Portal submission, or Portal acceptance."
+}
