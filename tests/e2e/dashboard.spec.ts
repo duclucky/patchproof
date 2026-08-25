@@ -11,7 +11,7 @@ for (const viewport of [
     await page.goto("/");
     await expect(
       page.getByRole("heading", {
-        name: "Security intelligence console",
+        name: "Release protection status",
       }),
     ).toBeVisible();
     await expect(page.getByRole("tab", { name: "Inspect" })).toBeVisible();
@@ -19,7 +19,13 @@ for (const viewport of [
     await expect(page.getByRole("tab", { name: "Submit" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Evaluate" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Challenge" })).toBeVisible();
-    await expect(page.getByLabel("Deployment state").getByText("Bradbury testnet")).toBeVisible();
+    await expect(page.getByLabel("Operational summary").getByText("Needs review")).toBeVisible();
+    await expect(page.getByText("Chain ID")).toBeHidden();
+    await expect(page.getByText("4221")).toBeHidden();
+    await expect(page.getByText("0xa803A6CE6eB741a9c864462c312e45177fb20E56")).toBeHidden();
+    await page.getByText("Technical details").click();
+    await expect(page.getByText("Chain ID")).toBeVisible();
+    await expect(page.getByText("4221")).toBeVisible();
     await expect(page.getByText("0xa803A6CE6eB741a9c864462c312e45177fb20E56")).toBeVisible();
     await expect(page.getByLabel("Authorization").getByText("No EIP-6963 wallet detected.")).toBeVisible();
     await expect(page.getByText("Not eligible")).toBeVisible();
@@ -53,6 +59,7 @@ test("workflow tabs reveal one write surface while preserving wallet gate", asyn
 
 test("invalid address remains fail-closed and cannot reload", async ({ page }) => {
   await page.goto("/");
+  await page.getByText("Technical details").click();
   await page.getByLabel("Contract address").press(process.platform === "darwin" ? "Meta+A" : "Control+A");
   await page.getByLabel("Contract address").pressSequentially("0x1234");
   await expect(page.getByLabel("Contract address")).toHaveAttribute("aria-invalid", "true");

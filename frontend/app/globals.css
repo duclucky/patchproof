@@ -52,7 +52,7 @@ code {
   min-height: 76px;
   padding: 0 5vw;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 24px;
   border-bottom: 1px solid var(--line);
@@ -252,6 +252,40 @@ h3 { font-size: 1.1rem; }
   display: grid;
   gap: 16px;
   align-content: start;
+}
+.technical-details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 4%);
+}
+.technical-details summary {
+  min-height: 52px;
+  padding: 13px 16px;
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.technical-details summary small {
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 650;
+}
+.technical-details[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+.technical-details .field-grid,
+.technical-details .technical-grid,
+.technical-details .panel-actions {
+  margin: 16px;
+}
+.technical-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 .field-grid, .registration-grid {
   display: grid;
@@ -486,7 +520,7 @@ footer {
 @media (max-width: 720px) {
   .command-header, .console-hero, .metrics-band, .console-grid { padding-left: 18px; padding-right: 18px; }
   .console-hero { padding-top: 38px; }
-  .hero-stack, .metrics-band, .field-grid, .registration-grid, .status-grid, .boundary-grid { grid-template-columns: 1fr; }
+  .hero-stack, .metrics-band, .field-grid, .registration-grid, .status-grid, .boundary-grid, .technical-grid { grid-template-columns: 1fr; }
   .workflow-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .panel, .tab-panel { padding: 16px; }
   .boundary { padding: 38px 18px; }
@@ -496,7 +530,6 @@ footer {
 @media (max-width: 430px) {
   h1 { font-size: 2.35rem; }
   .workflow-tabs { grid-template-columns: 1fr; }
-  .header-actions { align-items: stretch; }
   .icon-link { width: 100%; }
 }
 

@@ -62,22 +62,14 @@ function short(value: string) {
 }
 
 function statusLabel(status: ReleaseStatus) {
-  if (status.kind === "known" && status.eligible) return "Eligible";
-  if (status.kind === "known") return "Known, not eligible";
-  if (status.kind === "absent") return "Policy absent";
-  return "Unknown, fail closed";
+  if (status.kind === "known" && status.eligible) return "Protected";
+  if (status.kind === "absent") return "No policy yet";
+  return "Needs review";
 }
 
-function revisionLabel(status: ReleaseStatus) {
-  if (status.kind === "known") return String(status.currentRevision || "None");
-  if (status.kind === "absent") return "None";
-  return "Not loaded";
-}
-
-function pendingLabel(status: ReleaseStatus) {
-  if (status.kind === "known") return status.pendingStatus || "None";
-  if (status.kind === "absent") return "None";
-  return "Not loaded";
+function claimLabel(status: ReleaseStatus) {
+  if (status.kind === "known" && status.currentRevision > 0) return `Release proof #${status.currentRevision}`;
+  return "No verified release yet";
 }
 
 function DetailCell({
@@ -133,7 +125,8 @@ export default function Home() {
   }, [transaction]);
 
   const activeWorkflow = workflowTabs.find((item) => item.id === activeTab) ?? workflowTabs[0];
-  const walletStatus = wallet.account ? `Connected ${short(wallet.account)}` : "No EIP-6963 wallet detected.";
+  const walletSummary = wallet.account ? "Wallet connected" : "Connect wallet";
+  const nextStep = writeReady ? "Submit or evaluate a release" : "Connect wallet to update";
 
   async function runWrite(action: Action, request: WriteRequest) {
     if (!writeReady || !wallet.account || !wallet.selected) return;
@@ -233,48 +226,34 @@ export default function Home() {
           <span>PatchProof</span>
         </a>
         <div className="header-cluster" aria-label="Deployment state">
-          <span className="network-pill"><span />Bradbury testnet</span>
-          <code>{validAddress ? short(address) : "No contract"}</code>
+          <span className={status.kind === "known" && status.eligible ? "ready-pill ready-pill--good" : "ready-pill"}>
+            {statusLabel(status)}
+          </span>
           <span className={writeReady ? "ready-pill ready-pill--good" : "ready-pill"}>
-            {writeReady ? "Writes enabled" : "Writes locked"}
+            {walletSummary}
           </span>
         </div>
-        <nav className="header-actions" aria-label="Project links">
-          <a className="icon-link" href="https://github.com/duclucky/patchproof" target="_blank" rel="noreferrer">
-            <GithubLogo size={19} aria-hidden="true" /> Source <ArrowSquareOut size={14} aria-hidden="true" />
-          </a>
-          <a className="icon-link" href={explorer} target="_blank" rel="noreferrer">
-            Explorer <ArrowSquareOut size={14} aria-hidden="true" />
-          </a>
-        </nav>
       </header>
 
       <section className="console-hero" id="top" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <p className="eyebrow">Evidence-bound release remediation</p>
-          <h1 id="hero-title">Security intelligence console</h1>
+          <p className="eyebrow">Release protection</p>
+          <h1 id="hero-title">Release protection status</h1>
           <p>
-            Inspect exact release claims, validator consequence, wallet readiness, and challenge state
-            against one Bradbury contract. Unknown always fails closed.
+            Check whether this release has a verified remediation claim, submit new release proof,
+            or challenge a result that should not be trusted.
           </p>
         </div>
         <div className="hero-stack" aria-label="Operational summary">
           <DetailCell
-            label="Eligibility"
+            label="Protection"
             value={statusLabel(status)}
             tone={status.kind === "known" && status.eligible ? "good" : "warn"}
           />
-          <DetailCell label="Revision" value={revisionLabel(status)} />
-          <DetailCell label="Pending" value={pendingLabel(status)} />
-          <DetailCell label="Wallet" value={walletStatus} tone={writeReady ? "good" : "warn"} />
+          <DetailCell label="Current claim" value={claimLabel(status)} />
+          <DetailCell label="Next step" value={nextStep} />
+          <DetailCell label="Wallet" value={walletSummary} tone={writeReady ? "good" : "warn"} />
         </div>
-      </section>
-
-      <section className="metrics-band" aria-label="Bound deployment facts">
-        <DetailCell label="Chain" value="Bradbury testnet" />
-        <DetailCell label="Chain ID" value="4221" />
-        <DetailCell label="Contract" value={validAddress ? address : "Invalid or missing"} tone={validAddress ? "good" : "danger"} />
-        <DetailCell label="Policy ID" value={policyId || "Missing"} tone={policyId.length >= 3 ? "neutral" : "danger"} />
       </section>
 
       <div className="console-grid">
@@ -314,22 +293,6 @@ export default function Home() {
           >
             {activeTab === "inspect" ? (
               <div className="inspect-layout">
-                <div className="field-grid">
-                  <label>
-                    Contract address
-                    <input
-                      value={address}
-                      onChange={(event) => setAddress(event.target.value.trim())}
-                      placeholder="0x..."
-                      spellCheck={false}
-                      aria-invalid={address.length > 0 && !validAddress}
-                    />
-                  </label>
-                  <label>
-                    Policy ID
-                    <input value={policyId} onChange={(event) => setPolicyId(event.target.value)} placeholder="release-policy" />
-                  </label>
-                </div>
                 {statusQuery.isError ? (
                   <p className="alert" role="alert">
                     Canonical read failed. The release remains ineligible. {statusQuery.error.message}
@@ -356,6 +319,42 @@ export default function Home() {
                     <DownloadSimple size={18} aria-hidden="true" /> Export OpenVEX
                   </button>
                 </div>
+                <details className="technical-details">
+                  <summary>
+                    <span>Technical details</span>
+                    <small>For audits and troubleshooting</small>
+                  </summary>
+                  <div className="field-grid">
+                    <label>
+                      Contract address
+                      <input
+                        value={address}
+                        onChange={(event) => setAddress(event.target.value.trim())}
+                        placeholder="0x..."
+                        spellCheck={false}
+                        aria-invalid={address.length > 0 && !validAddress}
+                      />
+                    </label>
+                    <label>
+                      Policy ID
+                      <input value={policyId} onChange={(event) => setPolicyId(event.target.value)} placeholder="release-policy" />
+                    </label>
+                  </div>
+                  <div className="technical-grid">
+                    <DetailCell label="Network" value="Bradbury testnet" />
+                    <DetailCell label="Chain ID" value="4221" />
+                    <DetailCell label="Contract" value={validAddress ? address : "Invalid or missing"} tone={validAddress ? "good" : "danger"} />
+                    <DetailCell label="Policy ID" value={policyId || "Missing"} tone={policyId.length >= 3 ? "neutral" : "danger"} />
+                  </div>
+                  <div className="panel-actions">
+                    <a className="button button--ghost" href="https://github.com/duclucky/patchproof" target="_blank" rel="noreferrer">
+                      <GithubLogo size={18} aria-hidden="true" /> Source <ArrowSquareOut size={14} aria-hidden="true" />
+                    </a>
+                    <a className="button button--ghost" href={explorer} target="_blank" rel="noreferrer">
+                      Explorer <ArrowSquareOut size={14} aria-hidden="true" />
+                    </a>
+                  </div>
+                </details>
               </div>
             ) : null}
 
