@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "evidenceType": "sanitized_production_browser_inspection",
-  "capturedAt": "2026-08-25T14:29:03Z",
+  "capturedAt": "2026-08-25T16:38:14.9603171Z",
   "productionUrl": "https://patchproof-nine.vercel.app/",
   "vercelDeployment": {
     "id": "dpl_5toWz84kdPm2CT39MQGqWFDxFmXi",
@@ -12,7 +12,7 @@
     "inspectorUrl": "https://vercel.com/duckys-projects-bc83c6a0/patchproof/5toWz84kdPm2CT39MQGqWFDxFmXi"
   },
   "deployedContract": "0xa803A6CE6eB741a9c864462c312e45177fb20E56",
-  "sourceCommit": "c12714b1e1b9f611586830ca816a0d9120c51ef1",
+  "sourceCommit": "c2310413e85d47af490ffeb0c2bc5d1dda044b26",
   "surfaces": [
     {
       "browser": "HTTP fetch",
@@ -48,14 +48,75 @@
     "Technical deployment details are hidden by default behind the Technical details disclosure.",
     "Wallet choices are not shown in the Authorization panel before explicit Connect wallet intent.",
     "The Connect wallet button opens the wallet selector dialog and Escape dismisses it.",
-    "Codex did not connect a wallet, request a signature, submit a transaction, or perform Portal Submit.",
-    "Chrome tab was marked for user handoff."
+    "Initial handoff did not connect a wallet, request a signature, submit a transaction, or perform Portal Submit.",
+    "Chrome tab was marked for user handoff before wallet operation.",
+    "After explicit user authorization in Chrome, production UI writes registered a demo policy, submitted a demo claim, and evaluated it.",
+    "A post-evaluation canonical reload showed the release remains not eligible."
   ],
   "realWalletLifecycle": {
-    "status": "PENDING_USER_ACTION_IN_CHROME",
-    "transactionSubmittedByCodex": false,
+    "status": "CANONICAL_CONSEQUENCE_OBSERVED",
+    "transactionSubmittedByCodex": true,
+    "walletSignatureProvidedByUser": true,
     "receiptClaimed": false,
-    "resumeCondition": "The user operates the handoff Chrome tab at https://patchproof-nine.vercel.app/, clicks Connect wallet, chooses their Bradbury-compatible wallet, explicitly authorizes any testnet transaction they choose to run, and then asks Codex to inspect finalized canonical consequence evidence."
+    "connectedAccount": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+    "policyId": "demo-policy",
+    "productionUiWrites": [
+      {
+        "action": "register_policy",
+        "uiTransactionState": "canonical contract read confirmed registered policy",
+        "fullTransactionHashCaptured": false
+      },
+      {
+        "action": "submit_claim",
+        "uiTransactionState": "canonical contract read confirmed revision 1 claim",
+        "fullTransactionHashCaptured": false
+      },
+      {
+        "action": "evaluate",
+        "uiTransactionState": "Accepted - waiting for finality",
+        "postEvaluationCanonicalUiState": "Not eligible",
+        "uiShortHash": "0xac1e3b...d49ae2",
+        "fullTransactionHashCaptured": false
+      }
+    ],
+    "canonicalRead": {
+      "capturedAt": "2026-08-25T16:38:14.9603171Z",
+      "contractAddress": "0xa803A6CE6eB741a9c864462c312e45177fb20E56",
+      "network": "testnet_bradbury",
+      "releaseStatus": {
+        "exists": true,
+        "repository": "example/openssl-wrapper",
+        "cveId": "CVE-2024-0001",
+        "githubAdvisoryId": "GHSA-AAAA-BBBB-CCCC",
+        "component": "openssl-wrapper",
+        "baseCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "policyVersion": "policy-1",
+        "ttlSeconds": 86400,
+        "currentRevision": 0,
+        "pendingRevision": 0,
+        "pendingStatus": "",
+        "lastRevision": 1,
+        "eligible": false
+      },
+      "revision1": {
+        "exists": true,
+        "revision": 1,
+        "status": "UNVERIFIABLE",
+        "releaseCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "releaseTag": "v1.2.3",
+        "evidenceNote": "Maintainer says the release remediates the bounded issue; validators must independently verify allowlisted public sources.",
+        "submitter": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+        "challenged": false,
+        "challengeOf": 0,
+        "evaluatedAt": 1787675777,
+        "evidenceHash": "",
+        "expiresAt": 0,
+        "verdictReason": "CVE_NOT_IN_KEV"
+      }
+    },
+    "finalizedExecutionClaimed": false,
+    "semanticResult": "UNVERIFIABLE",
+    "canonicalConsequence": "The demo release claim is not eligible. Evaluation failed closed because the claimed CVE was not found in KEV."
   },
-  "claimBoundary": "This proves production Vercel rendering, user-facing first-screen simplification, wallet popup gating, real Chrome handoff, and write gating before user action. It does not satisfy or fabricate the mandatory real browser-wallet transaction lifecycle."
+  "claimBoundary": "This proves production Vercel rendering, user-facing first-screen simplification, wallet popup gating, real Chrome handoff, user-authorized browser-wallet writes, and the final canonical consequence observed through contract reads. It does not claim full transaction receipts for write hashes that were only visible as shortened UI hashes, a REMEDIATED verdict, production security, repository adoption, Portal submission, or Portal acceptance."
 }

@@ -12,8 +12,8 @@ Verified on 2026-08-25 with Python 3.13.14, Node.js 24.11.1, npm 11.18.0, Chrome
 | Frontend types | `npm run typecheck` | passed |
 | Frontend lint | `npm run lint` | passed with zero warnings |
 | Production build | `npm run build` | passed; `/` statically prerendered |
-| Browser smoke | `npm run test:e2e` | 8 passed in Chrome 151 |
-| Dependency audit | `npm audit --audit-level=high` | 0 vulnerabilities after bounded dev-dependency upgrades |
+| Browser smoke | `npm run test:e2e` | 10 passed in Chrome 151 |
+| Dependency audit | `npm audit --audit-level=high` | 0 vulnerabilities |
 | Bradbury public preflight | `npm run preflight` | chain 4221, 7-method schema, 4 write ABI round-trips, current gas price read |
 
 Browser smoke covers 375, 768, 1024, and 1440 px widths; no horizontal overflow; unknown/invalid states fail closed; writes stay wallet-gated; registration is explicit; reduced-motion is honored; and a browser origin can call the Bradbury RPC under CORS.

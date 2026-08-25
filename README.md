@@ -10,6 +10,8 @@ This project is not a vulnerability scanner, security audit, legal determination
 - Contract: [`0xa803A6CE6eB741a9c864462c312e45177fb20E56`](https://explorer-bradbury.genlayer.com/address/0xa803A6CE6eB741a9c864462c312e45177fb20E56)
 - Deployment transaction: [`0x2261b791e957902612194e62de6a4eee1bc7bcc4afc59dde5d50b22ed677f2cb`](https://explorer-bradbury.genlayer.com/tx/0x2261b791e957902612194e62de6a4eee1bc7bcc4afc59dde5d50b22ed677f2cb)
 - Sanitized canonical evidence: [`evidence/deployment.json`](evidence/deployment.json)
+- Sanitized browser-wallet evidence: [`evidence/browser-production.json`](evidence/browser-production.json)
+- Copy-ready Portal fields: [`evidence/portal-submission.md`](evidence/portal-submission.md)
 
 The web app exposes read-only inspection without a wallet and explicit EIP-6963 wallet selection for writes. It switches or adds Bradbury before sending a transaction, displays the submitted/accepted/finalized lifecycle, and reloads canonical state only after finality.
 
@@ -64,11 +66,11 @@ npm audit --audit-level=high
 npm run preflight
 ```
 
-The fresh verification baseline contains 58 automated tests:
+The fresh verification baseline contains 60 automated tests:
 
 - 17 direct and adversarial contract tests
 - 33 TypeScript unit, component, adapter, and deployment-state tests
-- 8 Chrome browser tests across four responsive breakpoints
+- 10 Chrome browser tests, including four responsive breakpoints
 
 The aggregate check also runs contract lint/schema extraction, ESLint, TypeScript, and a production Next.js build. See [`docs/LOCAL-VERIFICATION.md`](docs/LOCAL-VERIFICATION.md) for the exact toolchain and verified boundary.
 
