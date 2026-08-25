@@ -412,6 +412,9 @@ input[aria-invalid="true"] { border-color: var(--red); background: var(--red-sof
   display: grid;
   gap: 12px;
 }
+.wallet-list > .button {
+  width: fit-content;
+}
 .wallet-option {
   width: 100%;
   min-height: 48px;
@@ -441,6 +444,58 @@ input[aria-invalid="true"] { border-color: var(--red); background: var(--red-sof
   padding: 12px;
   border-radius: var(--radius);
   background: rgb(255 255 255 / 7%);
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(2 6 23 / 76%);
+  backdrop-filter: blur(14px);
+}
+.wallet-dialog {
+  width: min(460px, 100%);
+  border: 1px solid var(--line-strong);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgb(15 23 42 / 98%), rgb(2 8 23 / 98%)),
+    var(--panel);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+.dialog-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.dialog-heading h2 {
+  margin: 0;
+}
+.dialog-close {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 16px;
+  color: var(--ink);
+  background: rgb(255 255 255 / 5%);
+  cursor: pointer;
+  font-weight: 800;
+}
+.dialog-close:hover {
+  border-color: var(--blue);
+  background: rgb(14 165 233 / 12%);
+}
+.wallet-dialog > p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+.wallet-list--dialog {
+  padding-top: 4px;
 }
 .muted { color: var(--muted); }
 .tx-state {

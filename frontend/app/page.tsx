@@ -16,7 +16,7 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
-import { FormEvent, ReactNode, useMemo, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
 
 import { RegistrationForm } from "@/components/registration-form";
 import { StatusCard } from "@/components/status-card";
@@ -99,6 +99,7 @@ export default function Home() {
   const [transaction, setTransaction] = useState<TransactionState>(initialTransaction);
   const [activeAction, setActiveAction] = useState<Action | null>(null);
   const [activeTab, setActiveTab] = useState<WorkflowTab>("inspect");
+  const [walletDialogOpen, setWalletDialogOpen] = useState(false);
   const wallet = useWallets();
   const validAddress = addressPattern.test(address);
 
@@ -127,6 +128,19 @@ export default function Home() {
   const activeWorkflow = workflowTabs.find((item) => item.id === activeTab) ?? workflowTabs[0];
   const walletSummary = wallet.account ? "Wallet connected" : "Connect wallet";
   const nextStep = writeReady ? "Submit or evaluate a release" : "Connect wallet to update";
+
+  useEffect(() => {
+    if (wallet.account) setWalletDialogOpen(false);
+  }, [wallet.account]);
+
+  useEffect(() => {
+    if (!walletDialogOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setWalletDialogOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [walletDialogOpen]);
 
   async function runWrite(action: Action, request: WriteRequest) {
     if (!writeReady || !wallet.account || !wallet.selected) return;
@@ -450,17 +464,14 @@ export default function Home() {
             </div>
           ) : (
             <div className="wallet-list">
-              <p>Select an announced wallet. PatchProof never reads or stores private keys.</p>
+              <p>Connect only when you are ready to submit, evaluate, or challenge release proof.</p>
+              <button type="button" className="button button--primary" onClick={() => setWalletDialogOpen(true)}>
+                Connect wallet
+              </button>
               {wallet.wallets.length === 0 ? (
                 <p className="muted">No EIP-6963 wallet detected.</p>
               ) : (
-                wallet.wallets.map((item) => (
-                  <button className="wallet-option" type="button" key={item.info.uuid} onClick={() => void wallet.connect(item)} disabled={wallet.connecting}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.info.icon} alt="" width="28" height="28" />
-                    <span>{item.info.name}</span>
-                  </button>
-                ))
+                <p className="muted">{wallet.wallets.length} compatible wallet{wallet.wallets.length === 1 ? "" : "s"} available.</p>
               )}
             </div>
           )}
@@ -504,6 +515,51 @@ export default function Home() {
         <span>PatchProof reference implementation</span>
         <span>GenLayer Bradbury testnet</span>
       </footer>
+
+      {walletDialogOpen && !wallet.account ? (
+        <div className="modal-backdrop" onMouseDown={() => setWalletDialogOpen(false)}>
+          <section
+            className="wallet-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="wallet-dialog-title"
+            aria-describedby="wallet-dialog-copy"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="dialog-heading">
+              <div>
+                <p className="step">Wallet</p>
+                <h2 id="wallet-dialog-title">Connect wallet</h2>
+              </div>
+              <button
+                type="button"
+                className="dialog-close"
+                onClick={() => setWalletDialogOpen(false)}
+                autoFocus
+              >
+                Close
+              </button>
+            </div>
+            <p id="wallet-dialog-copy">
+              Choose the wallet you want to use. PatchProof never reads or stores private keys.
+            </p>
+            <div className="wallet-list wallet-list--dialog">
+              {wallet.wallets.length === 0 ? (
+                <p className="muted">No EIP-6963 wallet detected.</p>
+              ) : (
+                wallet.wallets.map((item) => (
+                  <button className="wallet-option" type="button" key={item.info.uuid} onClick={() => void wallet.connect(item)} disabled={wallet.connecting}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.info.icon} alt="" width="28" height="28" />
+                    <span>{item.info.name}</span>
+                  </button>
+                ))
+              )}
+            </div>
+            {wallet.error ? <p className="alert" role="alert">{wallet.error}</p> : null}
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }

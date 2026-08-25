@@ -57,6 +57,40 @@ test("workflow tabs reveal one write surface while preserving wallet gate", asyn
   await expect(page.getByRole("button", { name: "Open challenge" })).toBeDisabled();
 });
 
+test("wallet choices open in a dialog only after connect intent", async ({ page }) => {
+  await page.addInitScript(() => {
+    const icon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
+    const provider = {
+      request: async ({ method }: { method: string }) => {
+        if (method === "eth_chainId") return "0x107d";
+        if (method === "eth_requestAccounts") return ["0x1111111111111111111111111111111111111111"];
+        return null;
+      },
+    };
+    window.addEventListener("eip6963:requestProvider", () => {
+      window.dispatchEvent(new CustomEvent("eip6963:announceProvider", {
+        detail: { info: { uuid: "rabbit", name: "Rabbit Wallet", icon, rdns: "io.rabby" }, provider },
+      }));
+      window.dispatchEvent(new CustomEvent("eip6963:announceProvider", {
+        detail: { info: { uuid: "okx", name: "OKX Wallet", icon, rdns: "com.okx" }, provider },
+      }));
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.getByLabel("Authorization").getByText("Rabbit Wallet")).toBeHidden();
+  await expect(page.getByLabel("Authorization").getByText("OKX Wallet")).toBeHidden();
+
+  await page.getByRole("button", { name: "Connect wallet" }).click();
+  const dialog = page.getByRole("dialog", { name: "Connect wallet" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "Rabbit Wallet" })).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "OKX Wallet" })).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+});
+
 test("invalid address remains fail-closed and cannot reload", async ({ page }) => {
   await page.goto("/");
   await page.getByText("Technical details").click();
