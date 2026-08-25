@@ -25,6 +25,14 @@ jobs:
       - run: python -m venv .venv
       - run: .venv/bin/python -m pip install -e .
       - run: npm ci
+      - name: Prepare locked GenVM runner bundle
+        run: |
+          mkdir -p "$HOME/.cache/gltest-direct"
+          curl --fail --location --retry 3 \
+            https://github.com/genlayerlabs/genvm/releases/download/v0.3.0-rc7/genvm-runners-all.tar.xz \
+            --output "$HOME/.cache/gltest-direct/genvm-universal-v0.3.0-rc7.tar.xz"
+          echo "e218a1854214681560351051f76fe2b878545cf3409455ef372d57014a88ca67  $HOME/.cache/gltest-direct/genvm-universal-v0.3.0-rc7.tar.xz" \
+            | sha256sum --check --strict
       - run: npx playwright install --with-deps chromium
       - run: npm run check
       - run: npm audit --audit-level=high
