@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "evidenceType": "sanitized_production_browser_inspection",
-  "capturedAt": "2026-08-25T16:38:14.9603171Z",
+  "capturedAt": "2026-08-25T16:51:32.3487500Z",
   "productionUrl": "https://patchproof-nine.vercel.app/",
   "vercelDeployment": {
-    "id": "dpl_5toWz84kdPm2CT39MQGqWFDxFmXi",
-    "url": "https://patchproof-35l4qgjca-duckys-projects-bc83c6a0.vercel.app",
+    "id": "dpl_5u8rT8DbtAGWwEMxgpfxwyd9Lcy9",
+    "url": "https://patchproof-623dr83fn-duckys-projects-bc83c6a0.vercel.app",
     "alias": "https://patchproof-nine.vercel.app",
     "readyState": "READY",
     "target": "production",
-    "inspectorUrl": "https://vercel.com/duckys-projects-bc83c6a0/patchproof/5toWz84kdPm2CT39MQGqWFDxFmXi"
+    "inspectorUrl": "https://vercel.com/duckys-projects-bc83c6a0/patchproof/5u8rT8DbtAGWwEMxgpfxwyd9Lcy9"
   },
   "deployedContract": "0xa803A6CE6eB741a9c864462c312e45177fb20E56",
-  "sourceCommit": "c2310413e85d47af490ffeb0c2bc5d1dda044b26",
+  "sourceCommit": "898d794291f268cfef89c2fc8906f76cb6d6ec9f",
   "surfaces": [
     {
       "browser": "HTTP fetch",
