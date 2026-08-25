@@ -1,0 +1,20 @@
+[project]
+name = "patchproof"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "genlayer-test==0.29.2",
+  "genvm-linter==0.11.0",
+  "pytest==8.4.2",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests/direct"]
+addopts = "-ra --strict-markers"

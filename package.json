@@ -1,0 +1,44 @@
+{
+  "name": "patchproof",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev frontend",
+    "build": "next build frontend",
+    "start": "next start frontend",
+    "lint": "eslint frontend tests --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "contract:test": "node tools/run-python.mjs -m pytest tests/direct -q",
+    "contract:lint": "node tools/run-python.mjs -m genvm_linter.cli check contracts/PatchProof.py",
+    "preflight": "node deploy/preflight.mjs",
+    "deploy": "node deploy/deploy.mjs",
+    "check": "npm run contract:test && npm run contract:lint && npm run lint && npm run typecheck && npm test && npm run build && npm run test:e2e",
+    "verify": "npm run check"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.10",
+    "@tanstack/react-query": "5.102.3",
+    "genlayer-js": "1.1.8",
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@testing-library/jest-dom": "6.8.0",
+    "@testing-library/react": "16.3.0",
+    "@types/node": "24.3.0",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "@vitejs/plugin-react": "5.0.2",
+    "eslint": "9.34.0",
+    "eslint-config-next": "16.3.2",
+    "jsdom": "26.1.0",
+    "typescript": "5.9.2",
+    "vite": "7.3.6",
+    "vitest": "3.2.7"
+  }
+}
