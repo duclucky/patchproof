@@ -16,3 +16,4 @@ test-results/
 deploy/state.json
 evidence/private/
 *.log
+.vercel/
