@@ -1,39 +1,42 @@
 {
   "schemaVersion": 1,
   "evidenceType": "sanitized_production_browser_inspection",
-  "capturedAt": "2026-08-25T14:04:10Z",
+  "capturedAt": "2026-08-25T14:29:03Z",
   "productionUrl": "https://patchproof-nine.vercel.app/",
   "vercelDeployment": {
-    "id": "dpl_AMZ5zADiYSmMxehF6YnWXQuF2o5m",
-    "url": "https://patchproof-dkh3hua7u-duckys-projects-bc83c6a0.vercel.app",
+    "id": "dpl_5toWz84kdPm2CT39MQGqWFDxFmXi",
+    "url": "https://patchproof-35l4qgjca-duckys-projects-bc83c6a0.vercel.app",
     "alias": "https://patchproof-nine.vercel.app",
     "readyState": "READY",
     "target": "production",
-    "inspectorUrl": "https://vercel.com/duckys-projects-bc83c6a0/patchproof/AMZ5zADiYSmMxehF6YnWXQuF2o5m"
+    "inspectorUrl": "https://vercel.com/duckys-projects-bc83c6a0/patchproof/5toWz84kdPm2CT39MQGqWFDxFmXi"
   },
   "deployedContract": "0xa803A6CE6eB741a9c864462c312e45177fb20E56",
-  "sourceCommit": "6eb09dcb94adfdf8d2041c8ddbf7758a285c75fa",
+  "sourceCommit": "c12714b1e1b9f611586830ca816a0d9120c51ef1",
   "surfaces": [
     {
       "browser": "HTTP fetch",
       "originLoaded": true,
       "status": 200,
-      "consoleTextPresent": true,
-      "contractPresent": true
+      "userFacingHeadingPresent": true,
+      "legacyConsoleHeadingPresent": false
     },
     {
       "browser": "Chrome channel via Playwright",
       "originLoaded": true,
       "screenshot": "artifacts/vercel-1440.png",
-      "consoleTextPresent": true,
-      "contractPresent": true
+      "userFacingHeadingPresent": true,
+      "technicalDetailsHiddenByDefault": true,
+      "walletChoicesHiddenBeforeConnectIntent": true,
+      "walletDialogOpensAfterConnectIntent": true,
+      "walletDialogDismissesWithEscape": true
     },
     {
       "browser": "User Chrome via existing Codex extension",
       "originLoaded": true,
-      "title": "PatchProof - Evidence-bound release remediation",
-      "contractPrefilled": true,
-      "walletDiscovery": "EIP_6963_PROVIDER_DETECTED",
+      "title": "PatchProof — Evidence-bound release remediation",
+      "connectWalletButtonVisible": true,
+      "walletChoicesHiddenBeforeConnectIntent": true,
       "walletConnectedByCodex": false,
       "writeControlsEnabled": false,
       "handoffMarked": true
@@ -41,17 +44,18 @@
   ],
   "verifiedReadOnlyBehavior": [
     "Production HTTPS origin loaded successfully.",
-    "Security intelligence console heading rendered on Vercel production.",
-    "The locked Bradbury contract address rendered on Vercel production.",
-    "Chrome detected a wallet provider, but Codex did not connect it or request a signature.",
-    "Submit claim remained disabled before user wallet connection.",
+    "Release protection status heading rendered on Vercel production.",
+    "Technical deployment details are hidden by default behind the Technical details disclosure.",
+    "Wallet choices are not shown in the Authorization panel before explicit Connect wallet intent.",
+    "The Connect wallet button opens the wallet selector dialog and Escape dismisses it.",
+    "Codex did not connect a wallet, request a signature, submit a transaction, or perform Portal Submit.",
     "Chrome tab was marked for user handoff."
   ],
   "realWalletLifecycle": {
     "status": "PENDING_USER_ACTION_IN_CHROME",
     "transactionSubmittedByCodex": false,
     "receiptClaimed": false,
-    "resumeCondition": "The user operates the handoff Chrome tab at https://patchproof-nine.vercel.app/, connects their Bradbury-compatible wallet, explicitly authorizes any testnet transaction they choose to run, and then asks Codex to inspect finalized canonical consequence evidence."
+    "resumeCondition": "The user operates the handoff Chrome tab at https://patchproof-nine.vercel.app/, clicks Connect wallet, chooses their Bradbury-compatible wallet, explicitly authorizes any testnet transaction they choose to run, and then asks Codex to inspect finalized canonical consequence evidence."
   },
-  "claimBoundary": "This proves production Vercel rendering, correct public links, locked contract visibility, real Chrome wallet-provider detection, and write gating before user action. It does not satisfy or fabricate the mandatory real browser-wallet transaction lifecycle."
+  "claimBoundary": "This proves production Vercel rendering, user-facing first-screen simplification, wallet popup gating, real Chrome handoff, and write gating before user action. It does not satisfy or fabricate the mandatory real browser-wallet transaction lifecycle."
 }
